@@ -1,10 +1,4 @@
-﻿namespace QuickChatterV2.Client
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
-}
+﻿using QuickChatterV2.Client;
+
+var app = new App();
+app.Run();

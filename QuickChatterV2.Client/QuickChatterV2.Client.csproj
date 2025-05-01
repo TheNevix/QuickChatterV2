@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Views\" />
+    <ProjectReference Include="..\QuickChatterV2.Models\QuickChatterV2.Models.csproj" />
   </ItemGroup>
 
 </Project>
