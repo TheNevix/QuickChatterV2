@@ -14,6 +14,8 @@ namespace QuickChatterV2.Server.Server
     {
         private readonly TcpListener _listener;
         private readonly Dictionary<string, ICommandHandler> _handlers = new();
+        private readonly List<ConnectedClient> _connectedClients = new();
+
 
         public TcpServer(string ip, int port)
         {
@@ -33,11 +35,35 @@ namespace QuickChatterV2.Server.Server
                 Console.WriteLine("Nieuwe client verbonden.");
 
                 var client = new ConnectedClient(tcpClient);
-                var handler = new ClientHandler(client, _handlers);
+                var handler = new ClientHandler(client, _handlers, this);
 
                 // Run client in aparte thread/task
                 var clientThread = new Thread(handler.Process);
                 clientThread.Start();
+            }
+        }
+
+        public void RegisterClient(ConnectedClient client)
+        {
+            lock (_connectedClients)
+            {
+                _connectedClients.Add(client);
+            }
+        }
+
+        public void UnregisterClient(ConnectedClient client)
+        {
+            lock (_connectedClients)
+            {
+                _connectedClients.Remove(client);
+            }
+        }
+
+        public List<ConnectedClient> GetConnectedClients()
+        {
+            lock (_connectedClients)
+            {
+                return _connectedClients.ToList(); // Maak kopie om te voorkomen dat anderen direct wijzigen
             }
         }
     }

@@ -28,12 +28,6 @@ namespace QuickChatterV2.Client.Controllers
 
             loginService.Login(username, password);
 
-            var e = 5;
-
-
-
-
-
         }
     }
 }

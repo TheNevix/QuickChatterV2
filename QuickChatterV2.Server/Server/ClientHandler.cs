@@ -12,11 +12,13 @@ namespace QuickChatterV2.Server.Server
     {
         private readonly ConnectedClient _client;
         private readonly Dictionary<string, ICommandHandler> _handlers;
+        private readonly TcpServer _server;
 
-        public ClientHandler(ConnectedClient client, Dictionary<string, ICommandHandler> handlers)
+        public ClientHandler(ConnectedClient client, Dictionary<string, ICommandHandler> handlers, TcpServer server)
         {
             _client = client;
             _handlers = handlers;
+            _server = server;
         }
 
         public void Process()
@@ -46,7 +48,7 @@ namespace QuickChatterV2.Server.Server
 
                 if (_handlers.TryGetValue(command, out var handler))
                 {
-                    var response = handler.Handle(_client, parts);
+                    var response = handler.Handle(_client, parts, _server);
                     Send(response);
                 }
                 else

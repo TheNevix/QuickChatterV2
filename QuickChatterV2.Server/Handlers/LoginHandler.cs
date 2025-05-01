@@ -1,4 +1,5 @@
 ﻿using QuickChatterV2.Models;
+using QuickChatterV2.Server.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace QuickChatterV2.Server.Handlers
 {
     public class LoginHandler : ICommandHandler
     {
-        public string Handle(ConnectedClient client, string[] commandParts)
+        public string Handle(ConnectedClient client, string[] commandParts, TcpServer server)
         {
             if (commandParts.Length < 3)
                 return $"{(int)ResponseCode.NotOk}|Login requires username and password";
@@ -22,6 +23,7 @@ namespace QuickChatterV2.Server.Handlers
             {
                 client.Username = username;
                 Console.WriteLine($"{username} logged in successfully.");
+                server.RegisterClient(client);
                 return $"{commandParts[1]}{(int)ResponseCode.Ok}|Welcome {username}";
             }
             else
