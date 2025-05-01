@@ -22,7 +22,7 @@ namespace QuickChatterV2.Server.Handlers
             {
                 client.Username = username;
                 Console.WriteLine($"{username} logged in successfully.");
-                return $"{(int)ResponseCode.Ok}|Welcome {username}";
+                return $"{commandParts[1]}{(int)ResponseCode.Ok}|Welcome {username}";
             }
             else
             {
